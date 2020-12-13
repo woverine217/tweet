@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: back-deployment
+  labels:
+    app: back-deployment
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      name: backend
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - image: neukai/twitter-back
+          imagePullPolicy: Always
+          name: backend-container
+          env:
+            - name: REDIS_URL
+              value: "redis"
+          ports:
+            - containerPort: 5000

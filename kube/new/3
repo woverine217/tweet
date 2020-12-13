@@ -1,0 +1,30 @@
+sudo touch /frontend-deployment.yaml
+echo'apiVersion: apps/v1' >> /frontend-deployment.yaml
+echo'kind: Deployment' >> /frontend-deployment.yaml
+echo'metadata:' >> /frontend-deployment.yaml
+echo'  name: frontend-deployment' >> /frontend-deployment.yaml
+echo'  labels:' >> /frontend-deployment.yaml
+echo'    app: frontend-deployment' >> /frontend-deployment.yaml
+echo'spec:' >> /frontend-deployment.yaml
+echo'  selector:' >> /frontend-deployment.yaml
+echo'    matchLabels:' >> /frontend-deployment.yaml
+echo'      app: frontend' >> /frontend-deployment.yaml
+echo'  replicas: 3' >> /frontend-deployment.yaml
+echo'  minReadySeconds: 15' >> /frontend-deployment.yaml
+echo'  strategy:' >> /frontend-deployment.yaml
+echo'    type: RollingUpdate' >> /frontend-deployment.yaml
+echo'    rollingUpdate:' >> /frontend-deployment.yaml
+echo'      maxUnavailable: 1' >> /frontend-deployment.yaml
+echo'      maxSurge: 1' >> /frontend-deployment.yaml
+echo'  template:' >> /frontend-deployment.yaml
+echo'    metadata:' >> /frontend-deployment.yaml
+echo'      labels:' >> /frontend-deployment.yaml
+echo'        app: frontend' >> /frontend-deployment.yaml
+echo'    spec:' >> /frontend-deployment.yaml
+echo'      containers:' >> /frontend-deployment.yaml
+echo'        #image name' >> /frontend-deployment.yaml
+echo'        - image: neukai/twitter-front' >> /frontend-deployment.yaml
+echo'          imagePullPolicy: Always' >> /frontend-deployment.yaml
+echo'          name: frontend' >> /frontend-deployment.yaml
+echo'          ports:' >> /frontend-deployment.yaml
+echo'            - containerPort: 80' >> /frontend-deployment.yaml

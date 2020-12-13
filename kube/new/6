@@ -1,0 +1,12 @@
+sudo touch /service-redis.yaml
+echo'apiVersion: v1' >> /service-redis.yaml
+echo'kind: Service' >> /service-redis.yaml
+echo'metadata:' >> /service-redis.yaml
+echo'  name: redis' >> /service-redis.yaml
+echo'spec:' >> /service-redis.yaml
+echo'  ports:' >> /service-redis.yaml
+echo'  - port: 6379' >> /service-redis.yaml
+echo'    protocol: TCP' >> /service-redis.yaml
+echo'    targetPort: 6379' >> /service-redis.yaml
+echo'  selector:' >> /service-redis.yaml
+echo'    app: redis' >> /service-redis.yaml

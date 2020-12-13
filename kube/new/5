@@ -1,0 +1,27 @@
+sudo touch /backend-deployment.yaml
+echo'apiVersion: apps/v1' >> /backend-deployment.yaml
+echo'kind: Deployment' >> /backend-deployment.yaml
+echo'metadata:' >> /backend-deployment.yaml
+echo'  name: back-deployment' >> /backend-deployment.yaml
+echo'  labels:' >> /backend-deployment.yaml
+echo'    app: back-deployment' >> /backend-deployment.yaml
+echo'spec:' >> /backend-deployment.yaml
+echo'  replicas: 2' >> /backend-deployment.yaml
+echo'  selector:' >> /backend-deployment.yaml
+echo'    matchLabels:' >> /backend-deployment.yaml
+echo'      app: backend' >> /backend-deployment.yaml
+echo'  template:' >> /backend-deployment.yaml
+echo'    metadata:' >> /backend-deployment.yaml
+echo'      name: backend' >> /backend-deployment.yaml
+echo'      labels:' >> /backend-deployment.yaml
+echo'        app: backend' >> /backend-deployment.yaml
+echo'    spec:' >> /backend-deployment.yaml
+echo'      containers:' >> /backend-deployment.yaml
+echo'        - image: neukai/twitter-back' >> /backend-deployment.yaml
+echo'          imagePullPolicy: Always' >> /backend-deployment.yaml
+echo'          name: backend-container' >> /backend-deployment.yaml
+echo'          env:' >> /backend-deployment.yaml
+echo'            - name: REDIS_URL' >> /backend-deployment.yaml
+echo'              value: "redis"' >> /backend-deployment.yaml
+echo'          ports:' >> /backend-deployment.yaml
+echo'            - containerPort: 5000' >> /backend-deployment.yaml

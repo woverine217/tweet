@@ -1,0 +1,28 @@
+sudo touch /redis-deployment.yaml
+echo'apiVersion: apps/v1' >> /redis-deployment.yaml
+echo'kind: Deployment' >> /redis-deployment.yaml
+echo'metadata:' >> /redis-deployment.yaml
+echo'  name: redis' >> /redis-deployment.yaml
+echo'spec:' >> /redis-deployment.yaml
+echo'  selector:' >> /redis-deployment.yaml
+echo'    matchLabels:' >> /redis-deployment.yaml
+echo'      app: redis' >> /redis-deployment.yaml
+echo'  replicas: 2' >> /redis-deployment.yaml
+echo'  minReadySeconds: 15' >> /redis-deployment.yaml
+echo'  strategy:' >> /redis-deployment.yaml
+echo'    type: RollingUpdate' >> /redis-deployment.yaml
+echo'    rollingUpdate:' >> /redis-deployment.yaml
+echo'      maxUnavailable: 1' >> /redis-deployment.yaml
+echo'      maxSurge: 1' >> /redis-deployment.yaml
+echo'  template:' >> /redis-deployment.yaml
+echo'    metadata:' >> /redis-deployment.yaml
+echo'      labels:' >> /redis-deployment.yaml
+echo'        app: redis' >> /redis-deployment.yaml
+echo'    spec:' >> /redis-deployment.yaml
+echo'      containers:' >> /redis-deployment.yaml
+echo'        #redis image' >> /redis-deployment.yaml
+echo'        - image: redislabs/rejson' >> /redis-deployment.yaml
+echo'          imagePullPolicy: Always' >> /redis-deployment.yaml
+echo'          name: redis' >> /redis-deployment.yaml
+echo'          ports:' >> /redis-deployment.yaml
+echo'            - containerPort: 6379' >> /redis-deployment.yaml

@@ -1,0 +1,15 @@
+sudo touch /service-frontend-lb.yaml
+echo'apiVersion: v1' >> /service-frontend-lb.yaml
+echo'kind: Service' >> /service-frontend-lb.yaml
+echo'metadata:' >> /service-frontend-lb.yaml
+echo'  name: frontend' >> /service-frontend-lb.yaml
+echo'  labels:' >> /service-frontend-lb.yaml
+echo'    app: frontend' >> /service-frontend-lb.yaml
+echo'spec:' >> /service-frontend-lb.yaml
+echo'  type: LoadBalancer' >> /service-frontend-lb.yaml
+echo'  ports:' >> /service-frontend-lb.yaml
+echo'  - port: 80' >> /service-frontend-lb.yaml
+echo'    protocol: TCP' >> /service-frontend-lb.yaml
+echo'    targetPort: 80' >> /service-frontend-lb.yaml
+echo'  selector:' >> /service-frontend-lb.yaml
+echo'    app: frontend' >> /service-frontend-lb.yaml

@@ -1,0 +1,14 @@
+sudo touch /service-backend.yaml
+echo'apiVersion: v1' >> /service-backend.yaml
+echo'kind: Service' >> /service-backend.yaml
+echo'metadata:' >> /service-backend.yaml
+echo'  name: flask' >> /service-backend.yaml
+echo'  labels:' >> /service-backend.yaml
+echo'    app: flask' >> /service-backend.yaml
+echo'spec:' >> /service-backend.yaml
+echo'  ports:' >> /service-backend.yaml
+echo'    - protocol: TCP' >> /service-backend.yaml
+echo'      port: 5000' >> /service-backend.yaml
+echo'      targetPort: 5000' >> /service-backend.yaml
+echo'  selector:' >> /service-backend.yaml
+echo'    app: backend' >> /service-backend.yaml

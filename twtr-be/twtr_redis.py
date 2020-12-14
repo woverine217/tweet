@@ -4,6 +4,8 @@ import redis
 import json
 import time
 import csv
+import os
+import dns
 from timeloop import Timeloop
 from datetime import date, datetime, timedelta
 from uuid import UUID
@@ -33,8 +35,14 @@ stop_tl = False
 # https://docs.mongodb.com/manual/installation/
 
 # mongo and redis clients
-client = MongoClient('mongodb://localhost:27017/')
-rj = Client(host='127.0.0.1', port=6379, decode_responses=True)
+#zk 12/13 edit
+client = MongoClient("mongodb://twittermongo:twittermongo@cluster0-shard-00-00.bctrb.mongodb.net:27017,cluster0-shard-00-01.bctrb.mongodb.net:27017,cluster0-shard-00-02.bctrb.mongodb.net:27017/test?ssl=true&replicaSet=atlas-wg8bnf-shard-0&authSource=admin&retryWrites=true&w=majority")
+# client = MongoClient('mongodb://localhost:27017/')
+
+REDIS_URL = os.getenv('REDIS_URL')
+rj = Client(host=REDIS_URL, port=6379, decode_responses=True)
+
+# rj = Client(host='127.0.0.1', port=6379, decode_responses=True)
 
 
 def prefix_crud_timestamp_suffix(key):
@@ -73,7 +81,7 @@ def ssm():
 
 last_action = 2
 # consolidate into single time loop
-@tl.job(interval=timedelta(seconds=61))
+@tl.job(interval=timedelta(seconds=181))
 def all_jobs():
     global last_action
 

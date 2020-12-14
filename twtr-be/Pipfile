@@ -16,8 +16,10 @@ pymongo = "*"
 timeloop = "*"
 flask_api = "*"
 redis = "*"
+dnspython = "*"
+profanity_check = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"

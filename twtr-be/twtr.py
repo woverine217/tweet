@@ -22,12 +22,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from flask_login import UserMixin
 from flask_login import LoginManager
+from profanity_check import predict, predict_prob
 
 # straight mongo access
-from pymongo import MongoClient
+# from pymongo import MongoClient
 
 # mongo
-mongo_client = MongoClient('mongodb://localhost:27017/')
+# mongo_client = MongoClient('mongodb://localhost:27017/')
 
 # https://redislabs.com/blog/redis-as-a-json-store/
 # https://dzone.com/articles/redis-as-a-json-store
@@ -35,6 +36,7 @@ mongo_client = MongoClient('mongodb://localhost:27017/')
 REDIS_URL = os.getenv('REDIS_URL')
 
 rj = Client(host=REDIS_URL, port=6379, decode_responses=True)
+# rj = Client(host='127.0.0.1', port=6379, decode_responses=True)
 push_to_redis = True
 
 app = Flask(__name__)
@@ -114,6 +116,10 @@ def ssm():
 def rjjsonsetwrapper(key, path, r):
     rj.jsonset(key, path, r)
 
+def chekoffensive(line):
+    predict_prob([line])
+
+
 
 ################################################
 # Tweets 
@@ -126,13 +132,15 @@ def add_tweet():
     description = request.json['description']
     private = request.json['private']
     pic = request.json['pic']
-    tweet = dict(user=user, description=description, private=private,
-                 upvote=0, date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                 pic=pic, _id=str(ObjectId()))
-    tweets[tweet['_id']] = tweet
-    if push_to_redis:
-        rjjsonsetwrapper('ttwi-' + ssm() + '-' + tweet['_id'], Path.rootPath(), tweet)
-    return jsonify(tweet)
+    number = predict_prob([description])
+    if number <= 0.5:
+        tweet = dict(user=user, description=description, private=private,
+                     upvote=0, date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                     pic=pic, _id=str(ObjectId()))
+        tweets[tweet['_id']] = tweet
+        if push_to_redis:
+            rjjsonsetwrapper('ttwi-' + ssm() + '-' + tweet['_id'], Path.rootPath(), tweet)
+        return jsonify(tweet)
 
 
 # endpoint to show all of today's tweets
@@ -523,7 +531,8 @@ def mock_tweets():
     if BASE_URL is None:
         BASE_URL = request.base_url
         # BASE_URL = request.url
-        BASE_URL = BASE_URL.replace('/api/mock-tweets', '')
+        #zk 12/13 edit
+        BASE_URL = BASE_URL.replace('/api/mock-tweets', '/api/')
         print("*** BASE_URL is", BASE_URL)
 
     # first, clear all collections
@@ -560,7 +569,8 @@ def mock_tweets():
             img_gender = random.choice(['women', 'men'])
             img_index = random.choice(range(100))
             img_url = 'https://randomuser.me/api/portraits/' + img_gender + '/' + str(img_index) + '.jpg'
-            rv = c.post('/tweet', json={
+            #zk 12/13 edit
+            rv = c.post('/api/tweet', json={
                 'user': u, 'private': private,
                 'description': description, 'pic': img_url
             })

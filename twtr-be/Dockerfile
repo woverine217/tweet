@@ -10,5 +10,5 @@ RUN pipenv install
 RUN pipenv install --system
 RUN pipenv update
 EXPOSE 5000
-ENTRYPOINT ["python3"]
-CMD ["twtr.py"]
+RUN chmod a+x main.sh
+CMD ["./main.sh"]

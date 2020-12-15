@@ -9,6 +9,7 @@ RUN pip install pipenv
 RUN pipenv install
 RUN pipenv install --system
 RUN pipenv update
+RUN pip3 install git+https://github.com/dimitrismistriotis/profanity-check.git
 EXPOSE 5000
 RUN chmod a+x main.sh
 CMD ["./main.sh"]
